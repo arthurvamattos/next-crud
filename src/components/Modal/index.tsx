@@ -11,7 +11,7 @@ import {
 
 import { ThemeContext, DefaultTheme } from "styled-components";
 
-import { FiTool, FiBookOpen, FiLink2 } from "react-icons/fi";
+import { FiTool, FiBookOpen, FiLink } from "react-icons/fi";
 import OutsideClickHandler from "react-outside-click-handler";
 
 import { toast } from "react-toastify";
@@ -129,7 +129,7 @@ const Modal: React.ForwardRefRenderFunction<ModalHandles, Props> = (
           </TextAreaGroup>
 
           <InputGroup>
-            <FiLink2 size={16} color={theme.colors.primary} />
+            <FiLink size={16} color={theme.colors.primary} />
             <Input
               type="text"
               placeholder="Where I find the tool?"

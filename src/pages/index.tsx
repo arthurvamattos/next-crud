@@ -1,8 +1,11 @@
 import Head from "next/head";
-import { useCallback, useContext, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
 import { FiTool, FiSun, FiMoon, FiPlus } from "react-icons/fi";
 import { ThemeContext, DefaultTheme } from "styled-components";
+import ReactTooltip from "react-tooltip";
+
 import Table from "../components/Table";
+import Tooltips from "../components/Tooltips";
 import Modal, { ModalHandles } from "../components/Modal";
 
 import {
@@ -22,6 +25,10 @@ import {
 export default function Home({ toggleTheme }) {
   const theme = useContext<DefaultTheme>(ThemeContext);
   const modalRef = useRef<ModalHandles>(null);
+
+  useEffect(() => {
+    ReactTooltip.rebuild();
+  });
 
   const openModal = useCallback(() => {
     modalRef.current?.openModal();
@@ -56,14 +63,18 @@ export default function Home({ toggleTheme }) {
             </LeftSide>
 
             <RightSide>
-              <ToggleTheme onClick={toggleTheme}>
+              <ToggleTheme
+                onClick={toggleTheme}
+                data-tip
+                data-for="toggleTheme"
+              >
                 {theme.title === "light" ? (
                   <FiSun size={28} color={theme.colors.secondary} />
                 ) : (
                   <FiMoon size={28} color={theme.colors.secondary} />
                 )}
               </ToggleTheme>
-              <Add onClick={openModal}>
+              <Add onClick={openModal} data-tip data-for="add">
                 <FiPlus size={36} color="fff" />
               </Add>
             </RightSide>
@@ -72,6 +83,7 @@ export default function Home({ toggleTheme }) {
         </Container>
       </Wrapper>
 
+      <Tooltips />
       <Modal ref={modalRef} />
     </div>
   );
