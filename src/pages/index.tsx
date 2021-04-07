@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { FiTool, FiSun, FiMoon, FiPlus } from "react-icons/fi";
 import { ThemeContext, DefaultTheme } from "styled-components";
 import ReactTooltip from "react-tooltip";
+import axios from "axios";
 
 import Table from "../components/Table";
 import Tooltips from "../components/Tooltips";
@@ -22,9 +23,28 @@ import {
   Add,
 } from "../styles/pages/home";
 
+interface Tool {
+  _id: string;
+  name: string;
+  description: string;
+  link: string;
+}
+
 export default function Home({ toggleTheme }) {
+  const [tools, setTools] = useState<Array<Tool>>([]);
+
   const theme = useContext<DefaultTheme>(ThemeContext);
   const modalRef = useRef<ModalHandles>(null);
+
+  useEffect(() => {
+    async function loadTools() {
+      const response = await axios.get("/api/tools");
+      if (response.data) {
+        setTools(response.data);
+      }
+    }
+    loadTools();
+  }, []);
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -34,9 +54,9 @@ export default function Home({ toggleTheme }) {
     modalRef.current?.openModal();
   }, []);
 
-  // const openEditModal = useCallback((tool: Tool) => {
-  //   modalRef.current?.openEditModal(tool);
-  // }, []);
+  const openEditModal = useCallback((tool: Tool) => {
+    modalRef.current?.openEditModal(tool);
+  }, []);
 
   return (
     <div>
@@ -79,12 +99,16 @@ export default function Home({ toggleTheme }) {
               </Add>
             </RightSide>
           </Header>
-          <Table />
+          <Table
+            tools={tools}
+            openEditModal={openEditModal}
+            setTools={setTools}
+          />
         </Container>
       </Wrapper>
 
       <Tooltips />
-      <Modal ref={modalRef} />
+      <Modal tools={tools} setTools={setTools} ref={modalRef} />
     </div>
   );
 }

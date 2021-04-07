@@ -6,9 +6,10 @@ export default async (req: VercelRequest, res: VercelResponse) => {
   const db = await connectToDatabase(process.env.DATABASE_URL);
 
   const collection = db.collection("tools");
+  let tool;
 
   try {
-    await collection.insertOne({
+    tool = await collection.insertOne({
       name,
       description,
       link,
@@ -20,5 +21,5 @@ export default async (req: VercelRequest, res: VercelResponse) => {
     });
   }
 
-  return res.status(201).end();
+  return res.status(201).json(tool.insertedId);
 };

@@ -3,7 +3,7 @@ import GlobalStyle from "../styles/global";
 import usePersistedState from "../utils/usePersistedState";
 import light from "../styles/themes/light";
 import dark from "../styles/themes/dark";
-import { useState } from "react";
+import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = usePersistedState<DefaultTheme>("theme", dark);
@@ -15,6 +15,7 @@ function MyApp({ Component, pageProps }) {
   return (
     <ThemeProvider theme={theme}>
       <Component {...pageProps} toggleTheme={toggleTheme} />
+      <ToastContainer />
       <GlobalStyle />
     </ThemeProvider>
   );

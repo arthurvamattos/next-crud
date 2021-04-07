@@ -21,6 +21,10 @@ export const Th = styled.th`
     padding-left: 0.5rem;
   }
 
+  :nth-child(2) {
+    width: 100%;
+  }
+
   :nth-child(3) {
     text-align: center;
   }
@@ -43,6 +47,9 @@ export const Td = styled.td`
     padding-left: 0.75rem;
   }
 
+  :nth-child(2) {
+    width: 100%;
+  }
   :nth-child(3) {
     display: flex;
     align-items: center;
@@ -78,10 +85,18 @@ export const Button = styled.button`
 
   @media (max-width: 29rem) {
     + button {
-    margin-left: 0.25rem;
-  }
+      margin-left: 0.25rem;
+    }
 
-  :hover {
-    background: ${(props) => transparentize(0.8, props.theme.colors.primary)};
+    :hover {
+      background: ${(props) => transparentize(0.8, props.theme.colors.primary)};
+    }
   }
+`;
+
+export const NoTools = styled.p`
+  margin: 0.8rem 3.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: ${(props) => props.theme.colors.text};
 `;

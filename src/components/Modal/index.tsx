@@ -28,6 +28,8 @@ import {
   TextAreaGroup,
   TextArea,
 } from "./styles";
+import axios from "axios";
+import { retinaImage } from "polished";
 
 export interface ModalHandles {
   openModal: () => void;
@@ -42,12 +44,12 @@ interface Tool {
 }
 
 interface Props {
-  // tools: Array<Tool>;
-  // setTools: Dispatch<SetStateAction<Tool[]>>;
+  tools: Array<Tool>;
+  setTools: Dispatch<SetStateAction<Tool[]>>;
 }
 
 const Modal: React.ForwardRefRenderFunction<ModalHandles, Props> = (
-  {},
+  { tools, setTools },
   ref
 ) => {
   const [visible, setVisible] = useState(false);
@@ -55,6 +57,7 @@ const Modal: React.ForwardRefRenderFunction<ModalHandles, Props> = (
   const [description, setDescription] = useState("");
   const [link, setLink] = useState("");
   const [tool, setTool] = useState<Tool>();
+  const [buttonDisabled, setButtonDisabled] = useState(false);
 
   const theme = useContext<DefaultTheme>(ThemeContext);
 
@@ -90,12 +93,51 @@ const Modal: React.ForwardRefRenderFunction<ModalHandles, Props> = (
     };
   });
 
-  function handleSubmit(event: FormEvent) {
+  async function handleSubmit(event: FormEvent) {
     event.preventDefault();
+
+    try {
+      setButtonDisabled(true);
+      const tool = { name, description, link };
+      const response = await axios.post("/api/tools/store", tool);
+      toast.success("Tool add successfully");
+      closeModal();
+
+      const newTool = { ...tool, _id: response.data.toString() };
+      const updatedTools = [...tools, newTool];
+      setTools(updatedTools);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error on add tool, please try again");
+    } finally {
+      setButtonDisabled(false);
+    }
   }
 
-  function handleEditSubmit(event: FormEvent) {
+  async function handleEditSubmit(event: FormEvent) {
     event.preventDefault();
+
+    try {
+      setButtonDisabled(true);
+      const updatedTool = { _id: tool._id, name, description, link };
+      await axios.put(`/api/tools/${tool._id}`, updatedTool);
+      toast.success("Tool updated successfully");
+      closeModal();
+
+      const updatedTools = tools.map((tool) => {
+        if (tool._id.toString() === updatedTool._id.toString()) {
+          return updatedTool;
+        } else {
+          return tool;
+        }
+      });
+
+      setTools(updatedTools);
+    } catch (error) {
+      toast.error("Error on update tool, please try again");
+    } finally {
+      setButtonDisabled(false);
+    }
   }
 
   if (!visible) {
@@ -144,9 +186,13 @@ const Modal: React.ForwardRefRenderFunction<ModalHandles, Props> = (
               Cancel
             </CancelButton>
             {tool ? (
-              <Button type="submit">Update</Button>
+              <Button type="submit" disabled={buttonDisabled}>
+                Update
+              </Button>
             ) : (
-              <Button type="submit">Add new</Button>
+              <Button type="submit" disabled={buttonDisabled}>
+                Add new
+              </Button>
             )}
           </ButtonsWrapper>
         </Form>
