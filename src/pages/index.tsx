@@ -1,8 +1,9 @@
 import Head from "next/head";
-import { useContext } from "react";
+import { useCallback, useContext, useRef } from "react";
 import { FiTool, FiSun, FiMoon, FiPlus } from "react-icons/fi";
 import { ThemeContext, DefaultTheme } from "styled-components";
 import Table from "../components/Table";
+import Modal, { ModalHandles } from "../components/Modal";
 
 import {
   Wrapper,
@@ -20,6 +21,15 @@ import {
 
 export default function Home({ toggleTheme }) {
   const theme = useContext<DefaultTheme>(ThemeContext);
+  const modalRef = useRef<ModalHandles>(null);
+
+  const openModal = useCallback(() => {
+    modalRef.current?.openModal();
+  }, []);
+
+  // const openEditModal = useCallback((tool: Tool) => {
+  //   modalRef.current?.openEditModal(tool);
+  // }, []);
 
   return (
     <div>
@@ -32,13 +42,15 @@ export default function Home({ toggleTheme }) {
         <Container>
           <Header>
             <LeftSide>
-              <LogoWrapper>
-                <FiTool color="#fff" size={36} />
-              </LogoWrapper>
               <TextWraper>
-                <Title>Manage my tools</Title>
+                <Title>
+                  <LogoWrapper>
+                    <FiTool color="#fff" size={18} />
+                  </LogoWrapper>
+                  Manage my tools
+                </Title>
                 <Subtitle>
-                  what makes your life easier as a programmer?
+                  What makes your life easier as a programmer?
                 </Subtitle>
               </TextWraper>
             </LeftSide>
@@ -51,7 +63,7 @@ export default function Home({ toggleTheme }) {
                   <FiMoon size={28} color={theme.colors.secondary} />
                 )}
               </ToggleTheme>
-              <Add onClick={() => {}}>
+              <Add onClick={openModal}>
                 <FiPlus size={36} color="fff" />
               </Add>
             </RightSide>
@@ -59,6 +71,8 @@ export default function Home({ toggleTheme }) {
           <Table />
         </Container>
       </Wrapper>
+
+      <Modal ref={modalRef} />
     </div>
   );
 }

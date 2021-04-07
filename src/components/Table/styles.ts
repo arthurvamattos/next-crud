@@ -6,7 +6,7 @@ export const Container = styled.table`
   border-spacing: 0 1.7rem;
 
   @media (max-width: 37.5rem) {
-    padding: 1.75rem 2rem;
+    padding: 0.5rem 2rem;
   }
 `;
 
@@ -17,16 +17,45 @@ export const Th = styled.th`
   font-weight: 600;
   text-align: left;
 
+  + th {
+    padding-left: 0.5rem;
+  }
+
   :nth-child(3) {
     text-align: center;
+  }
+
+  @media (max-width: 29rem) {
+    :nth-child(1) {
+      width: 100%;
+    }
+
+    :nth-child(2) {
+      display: none;
+    }
   }
 `;
 
 export const Td = styled.td`
   color: ${(props) => props.theme.colors.lightText};
 
+  + td {
+    padding-left: 0.75rem;
+  }
+
   :nth-child(3) {
     display: flex;
+    align-items: center;
+  }
+
+  @media (max-width: 29rem) {
+    :nth-child(1) {
+      width: 100%;
+    }
+
+    :nth-child(2) {
+      display: none;
+    }
   }
 `;
 
@@ -47,13 +76,12 @@ export const Button = styled.button`
     margin-left: 0.5rem;
   }
 
-  :hover {
-    background: ${(props) => transparentize(0.8, props.theme.colors.primary)};
+  @media (max-width: 29rem) {
+    + button {
+    margin-left: 0.25rem;
   }
 
-  @media (max-width: 26rem) {
-    height: 2.75rem;
-    width: 2.75rem;
-    border-radius: 1.2rem;
+  :hover {
+    background: ${(props) => transparentize(0.8, props.theme.colors.primary)};
   }
 `;

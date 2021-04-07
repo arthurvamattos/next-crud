@@ -6,7 +6,7 @@ import dark from "../styles/themes/dark";
 import { useState } from "react";
 
 function MyApp({ Component, pageProps }) {
-  const [theme, setTheme] = useState<DefaultTheme>(dark);
+  const [theme, setTheme] = usePersistedState<DefaultTheme>("theme", dark);
 
   const toggleTheme = () => {
     setTheme(theme.title === "light" ? dark : light);

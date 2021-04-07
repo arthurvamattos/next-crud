@@ -10,6 +10,7 @@ function usePersistedState<T>(key: string, initialState: T): Response<T> {
       if (storageValue) {
         return JSON.parse(storageValue);
       }
+      return initialState;
     } else {
       return initialState;
     }

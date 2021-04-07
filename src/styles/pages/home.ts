@@ -3,7 +3,7 @@ import { shade, transparentize } from "polished";
 
 export const Wrapper = styled.main`
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
 
   display: flex;
   justify-content: center;
@@ -16,17 +16,19 @@ export const Container = styled.main`
   min-height: 30rem;
   border-radius: 1rem;
   background: ${(props) => props.theme.colors.foreground};
+
+  margin: 3rem 0;
 `;
 
 export const Header = styled.header`
-  padding: 2.25rem 3.5rem;
+  padding: 2.25rem 3.5rem 1.5rem;
   border-bottom: 0.1rem solid ${(props) => props.theme.colors.lightGray};
 
   display: flex;
   justify-content: space-between;
   align-items: center;
 
-  @media (max-width: 48rem) {
+  @media (max-width: 36rem) {
     flex-direction: column;
   }
 
@@ -41,49 +43,36 @@ export const LeftSide = styled.div`
 `;
 
 export const LogoWrapper = styled.div`
-  height: 4rem;
-  width: 4rem;
-  min-width: 4rem;
-  border-radius: 1.875rem;
+  height: 2rem;
+  width: 2rem;
+  min-width: 2rem;
+  border-radius: 1rem;
   background: ${(props) => props.theme.colors.primary};
+  margin-right: 0.5rem;
 
   display: flex;
   justify-content: center;
   align-items: center;
-
-  @media (max-width: 26rem) {
-    height: 3rem;
-    min-width: 3rem;
-    width: 3rem;
-    border-radius: 1.35rem;
-  }
 `;
 
 export const TextWraper = styled.div`
   display: flex;
   flex-direction: column;
-  margin-left: 1.25rem;
-
-  @media (max-width: 26rem) {
-    margin-left: 0.75rem;
-  }
 `;
 
 export const Title = styled.h1`
   font-size: 1.75rem;
-  margin-bottom: 0.25rem;
-
-  @media (max-width: 26rem) {
-    font-size: 1.5rem;
-  }
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
 `;
 
 export const Subtitle = styled.p`
   font-size: 1rem;
   color: ${(props) => props.theme.colors.lightText};
 
-  @media (max-width: 26rem) {
-    font-size: 0.75rem;
+  @media (max-width: 36rem) {
+    font-size: 0.85rem;
   }
 `;
 
@@ -93,7 +82,7 @@ export const RightSide = styled.div`
 
   @media (max-width: 48rem) {
     align-self: flex-end;
-    margin-top: 0.5rem;
+    margin-top: 1.2rem;
   }
 `;
 
@@ -105,6 +94,7 @@ export const ToggleTheme = styled.button`
   cursor: pointer;
   transition: background 0.2s ease;
   border: none;
+  margin-left: 1rem;
 
   display: flex;
   justify-content: center;
