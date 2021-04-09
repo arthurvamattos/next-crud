@@ -32,11 +32,11 @@ This app features all the latest tools and practices in web development!
 
 ## Getting started
 
-1. Clone this repo using git clone https://github.com/arthurvamattos/next-crud.git
-2. Move yourself to the appropriate directory: cd next-crud
-3. Run yarn to install dependencies
-4. Create a .env file and add the MongoDB url connection in DATABASE_URL field
-5. Run yarn dev to start the server
+1. Clone this repo using git clone `https://github.com/arthurvamattos/next-crud.git`
+2. Move yourself to the appropriate directory: `cd next-crud`
+3. Run `yarn` to install dependencies
+4. Create a `.env` file and add the MongoDB url connection in DATABASE_URL field
+5. Run `yarn dev` to start the server
 
 ## License
 
