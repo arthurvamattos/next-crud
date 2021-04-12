@@ -22,8 +22,8 @@ import {
   ToggleTheme,
   Add,
 } from "../styles/pages/home";
-import Loading from "../components/Loading";
-
+import { GetServerSideProps } from "next";
+import indexTools from "../utils/indexTools";
 interface Tool {
   _id: string;
   name: string;
@@ -31,23 +31,11 @@ interface Tool {
   link: string;
 }
 
-export default function Home({ toggleTheme }) {
-  const [tools, setTools] = useState<Array<Tool>>([]);
-  const [loading, setLoading] = useState(true);
+export default function Home({ toggleTheme, tools: storegedTools }) {
+  const [tools, setTools] = useState<Array<Tool>>(storegedTools);
 
   const theme = useContext<DefaultTheme>(ThemeContext);
   const modalRef = useRef<ModalHandles>(null);
-
-  useEffect(() => {
-    async function loadTools() {
-      const response = await axios.get("/api/tools");
-      if (response.data) {
-        setTools(response.data);
-      }
-      setLoading(false);
-    }
-    loadTools();
-  }, []);
 
   useEffect(() => {
     ReactTooltip.rebuild();
@@ -110,9 +98,24 @@ export default function Home({ toggleTheme }) {
         </Container>
       </Wrapper>
 
-      {loading && <Loading />}
       <Tooltips />
       <Modal tools={tools} setTools={setTools} ref={modalRef} />
     </div>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const tools = await (await indexTools()).map((tool) => {
+    return {
+      ...tool,
+      _id: tool._id.toString(),
+      createdAt: tool.createdAt.toString(),
+    };
+  });
+
+  return {
+    props: {
+      tools,
+    },
+  };
+};
