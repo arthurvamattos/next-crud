@@ -22,6 +22,7 @@ import {
   ToggleTheme,
   Add,
 } from "../styles/pages/home";
+import Loading from "../components/Loading";
 
 interface Tool {
   _id: string;
@@ -32,6 +33,7 @@ interface Tool {
 
 export default function Home({ toggleTheme }) {
   const [tools, setTools] = useState<Array<Tool>>([]);
+  const [loading, setLoading] = useState(true);
 
   const theme = useContext<DefaultTheme>(ThemeContext);
   const modalRef = useRef<ModalHandles>(null);
@@ -42,6 +44,7 @@ export default function Home({ toggleTheme }) {
       if (response.data) {
         setTools(response.data);
       }
+      setLoading(false);
     }
     loadTools();
   }, []);
@@ -107,6 +110,7 @@ export default function Home({ toggleTheme }) {
         </Container>
       </Wrapper>
 
+      {loading && <Loading />}
       <Tooltips />
       <Modal tools={tools} setTools={setTools} ref={modalRef} />
     </div>
