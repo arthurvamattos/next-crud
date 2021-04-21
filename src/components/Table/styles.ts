@@ -22,7 +22,7 @@ export const Th = styled.th`
   }
 
   :nth-child(2) {
-    width: 100%;
+    width: 95%;
   }
 
   :nth-child(3) {
@@ -42,13 +42,14 @@ export const Th = styled.th`
 
 export const Td = styled.td`
   color: ${(props) => props.theme.colors.lightText};
+  width: 100%;
 
   + td {
     padding-left: 0.75rem;
   }
 
-  :nth-child(2) {
-    width: 100%;
+  :nth-child(1) {
+    width: 20%;
   }
   :nth-child(3) {
     display: flex;
@@ -58,6 +59,10 @@ export const Td = styled.td`
   @media (max-width: 29rem) {
     :nth-child(1) {
       width: 100%;
+      max-width: 9rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     :nth-child(2) {
